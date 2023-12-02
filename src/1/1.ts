@@ -19,15 +19,12 @@ console.log(sum);
 function findFirstNumber(row: string, isReversed: boolean): string {
     const rx = isReversed ? new RegExp(reverse(rxBase)) : new RegExp(rxBase);
     let digitalized = isReversed ? reverse(row) : row;
-    let searchResult = null;
-    do {
-        searchResult = digitalized.match(rx);
-        if (searchResult !== null && searchResult.index !== undefined) {
-            digitalized = digitalized.substring(0, searchResult.index)
-                + getDigit(searchResult[0], isReversed).toString()
-                + digitalized.substring(searchResult.index + searchResult[0].length);
-        }
-    } while (searchResult !== null);
+    const searchResult = digitalized.match(rx);
+    if (searchResult !== null && searchResult.index !== undefined) {
+        digitalized = digitalized.substring(0, searchResult.index)
+            + getDigit(searchResult[0], isReversed).toString()
+            + digitalized.substring(searchResult.index + searchResult[0].length);
+    }
 
     const digits = digitalized.replace(/[a-z]/g, '');
     return digits[0];
