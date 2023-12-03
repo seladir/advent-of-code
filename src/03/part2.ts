@@ -7,7 +7,7 @@ type PartNumber = {
 
 const file = readFileSync('full.txt', 'utf8');
 const eng = file.split('\n');
-const l = eng[0].length;
+const w = eng[0].length;
 const h = eng.length;
 
 function isNumber(x: number, y: number): boolean {
@@ -18,7 +18,7 @@ function getGearAddress(x: number, y: number): number {
     if (!eng[y] || !eng[y][x] || eng[y][x] !== '*') {
         return NaN;
     }
-    return (y - 1) * l + x;
+    return (y - 1) * w + x;
 }
 
 function getAdjacentGearAddresses(x: number, y: number): number[] {
@@ -31,7 +31,7 @@ let inPartNum = false;
 let partNums: PartNumber[] = [];
 let curPartNum: PartNumber = { digits: '', gearAddresses: [] };
 for (let y = 0; y < h; y += 1) {
-    for (let x = 0; x <= l; x += 1) {
+    for (let x = 0; x <= w; x += 1) {
         if (isNumber(x, y)) {
             if (!inPartNum) {
                 inPartNum = true;
