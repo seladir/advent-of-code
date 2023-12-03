@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 
 type PartNumber = {
     digits: string;
-    gears: number[];
+    gearAddresses: number[];
 }
 
 const file = readFileSync('full.txt', 'utf8');
@@ -14,38 +14,38 @@ function isNumber(x: number, y: number): boolean {
     return !Number.isNaN(parseInt(eng[y][x], 10));
 }
 
-function getGear(x: number, y: number): number {
+function getGearAddress(x: number, y: number): number {
     if (!eng[y] || !eng[y][x] || eng[y][x] !== '*') {
         return NaN;
     }
     return (y - 1) * l + x;
 }
 
-function getAdjacentGears(x: number, y: number): number[] {
-    return [getGear(x - 1, y - 1), getGear(x, y - 1), getGear(x + 1, y - 1), getGear(x - 1, y),
-        getGear(x + 1, y), getGear(x - 1, y + 1), getGear(x, y + 1), getGear(x + 1, y + 1)]
+function getAdjacentGearAddresses(x: number, y: number): number[] {
+    return [getGearAddress(x - 1, y - 1), getGearAddress(x, y - 1), getGearAddress(x + 1, y - 1), getGearAddress(x - 1, y),
+        getGearAddress(x + 1, y), getGearAddress(x - 1, y + 1), getGearAddress(x, y + 1), getGearAddress(x + 1, y + 1)]
         .filter((g) => !isNaN(g));
 }
 
-let inNumber = false;
-let numbers: PartNumber[] = [];
-let curNum: PartNumber = { digits: '', gears: [] };
+let inPartNum = false;
+let partNums: PartNumber[] = [];
+let curPartNum: PartNumber = { digits: '', gearAddresses: [] };
 for (let y = 0; y < h; y += 1) {
     for (let x = 0; x <= l; x += 1) {
         if (isNumber(x, y)) {
-            if (!inNumber) {
-                inNumber = true;
-                curNum = { digits: '', gears: [] };
+            if (!inPartNum) {
+                inPartNum = true;
+                curPartNum = { digits: '', gearAddresses: [] };
             }
 
-            curNum.digits += eng[y][x];
-            curNum.gears.push(...getAdjacentGears(x, y));
-            curNum.gears = [...new Set(curNum.gears)];
+            curPartNum.digits += eng[y][x];
+            curPartNum.gearAddresses.push(...getAdjacentGearAddresses(x, y));
+            curPartNum.gearAddresses = [...new Set(curPartNum.gearAddresses)];
         } else {
-            if (inNumber) {
-                inNumber = false;
-                if (curNum.gears.length) {
-                    numbers.push(curNum);
+            if (inPartNum) {
+                inPartNum = false;
+                if (curPartNum.gearAddresses.length) {
+                    partNums.push(curPartNum);
                 }
             }
         }
@@ -53,8 +53,8 @@ for (let y = 0; y < h; y += 1) {
 }
 
 const gearCandidates = new Map<number, number[]>();
-numbers.forEach((num) => {
-    num.gears.forEach((gearAddress) => {
+partNums.forEach((num) => {
+    num.gearAddresses.forEach((gearAddress) => {
         const existingNums = gearCandidates.get(gearAddress);
         if (existingNums !== undefined) {
             gearCandidates.set(gearAddress, [...existingNums, Number(num.digits)]);
