@@ -12,7 +12,7 @@ for (let i = 2; i < rows.length; i += 1 ) {
 }
 
 let minLocation = Infinity;
-const locations = seeds.map((seed) => {
+seeds.forEach((seed) => {
     let converted = seed;
     pipeline.forEach((step) => {
         step.every((rule) => {
