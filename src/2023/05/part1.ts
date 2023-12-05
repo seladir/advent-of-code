@@ -10,6 +10,8 @@ for (let i = 2; i < rows.length; i += 1 ) {
         pipeline[pipeline.length - 1].push(rows[i].split(' ').map(n => Number(n)));
     }
 }
+
+let minLocation = Infinity;
 const locations = seeds.map((seed) => {
     let converted = seed;
     pipeline.forEach((step) => {
@@ -21,6 +23,8 @@ const locations = seeds.map((seed) => {
             return true;
         });
     });
-    return converted;
+    if (converted < minLocation) {
+        minLocation = converted;
+    }
 });
-console.log(Math.min(...locations));
+console.log(minLocation);
