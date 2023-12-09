@@ -26,12 +26,10 @@ for (let i = 2; i < rows.length; i += 1) {
 }
 
 const distances: number[] = [];
-let stepsCount = 0;
-let instructionIndex = 0;
 for (const node of currentNodes) {
     let currentNode = node;
-    stepsCount = 0;
-    instructionIndex = 0;
+    let stepsCount = 0;
+    let instructionIndex = 0;
     do {
         if (instructionIndex === instructions.length) {
             instructionIndex = 0;
