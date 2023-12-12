@@ -7,7 +7,6 @@ type Direction = {
 
 type Tile = {
     ends: Direction[];
-    visited: boolean;
 }
 
 const rows = readFileSync('full.txt', 'utf8').split('\n');
@@ -22,7 +21,6 @@ const map: Tile[][] = rows.map((row, y) => {
     for (let x = 0; x < row.length; x += 1) {
         const tile: Tile = {
             ends: [],
-            visited: false,
         }
         switch (row[x]) {
             case 'S':
