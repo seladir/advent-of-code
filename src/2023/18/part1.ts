@@ -54,10 +54,10 @@ const rows = readFileSync('full.txt', 'utf8').split('\n');
 for (const row of rows) {
     const parts = row.split(' ');
     const direction = directions[parts[0]];
-    const length = Number(parts[1]);
+    const distance = Number(parts[1]);
 
-    const endX = currentX + direction.x * length;
-    const endY = currentY + direction.y * length;
+    const endX = currentX + direction.x * distance;
+    const endY = currentY + direction.y * distance;
     if (endX < 0 || endY < 0 || endX >= width || endY >= height) {
         let expandX = 0;
         let expandY = 0;
@@ -76,7 +76,7 @@ for (const row of rows) {
         expand(expandX, expandY);
     }
 
-    for (let i = 0; i < length; i += 1) {
+    for (let i = 0; i < distance; i += 1) {
         currentX += direction.x;
         currentY += direction.y;
         lagoon[currentY][currentX] = { dug: true, outer: false };
@@ -113,7 +113,6 @@ do {
 } while (tile !== undefined);
 
 let sum = 0;
-// let output = '';
 for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
         if (!lagoon[y][x].outer) {
@@ -122,9 +121,6 @@ for (let y = 0; y < height; y += 1) {
         if (lagoon[y][x].dug) {
             sum += 1;
         }
-        // output = output + (lagoon[y][x].dug ? '#' : '.');
     }
-    // output = output + '\n';
 }
-// console.log(output);
 console.log(sum);
