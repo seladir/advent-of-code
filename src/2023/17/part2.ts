@@ -38,7 +38,7 @@ function go(x: number, y: number, loss: Loss) {
         return;
     }
 
-    if (x === side - 1 && y === side - 1) {
+    if (x === side - 1 && y === side - 1 && loss.long >= 4) {
         if (newLoss < minLoss) {
             minLoss = newLoss;
         }
@@ -59,13 +59,18 @@ function go(x: number, y: number, loss: Loss) {
         city[y][x].minLosses[previousMinLossIndex].loss = newLoss;
     }
 
+    if (loss.long < 4) {
+        go(x + loss.dx, y + loss.dy, { dx: loss.dx, dy: loss.dy, long: loss.long + 1, loss: newLoss });
+        return;
+    }
+
     for (const [dx, dy] of directions) {
         if ((dx !== 0 && dx + loss.dx === 0) || (dy !== 0 && dy + loss.dy === 0)) {
             continue;
         }
 
         const isSameDirection = loss.dx === dx && loss.dy === dy;
-        if (!isSameDirection || loss.long < 3) {
+        if (!isSameDirection || loss.long < 10) {
             go(x + dx, y + dy, { dx, dy, long: isSameDirection ? loss.long + 1 : 1, loss: newLoss });
         }
     }
