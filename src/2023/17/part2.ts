@@ -38,8 +38,8 @@ function go(x: number, y: number, loss: Loss) {
         return;
     }
 
-    if (x === side - 1 && y === side - 1 && loss.long >= 4) {
-        if (newLoss < minLoss) {
+    if (x === side - 1 && y === side - 1) {
+        if (newLoss < minLoss && loss.long >= 4) {
             minLoss = newLoss;
         }
         return;

@@ -45,6 +45,11 @@ function go(x: number, y: number, loss: Loss) {
         return;
     }
 
+    const previousShorterMinLossIndex = city[y][x].minLosses.findIndex(minLoss => minLoss.dx === loss.dx && minLoss.dy === loss.dy && minLoss.long < loss.long && minLoss.loss <= newLoss);
+    if (previousShorterMinLossIndex !== -1) {
+        return;
+    }
+
     const previousMinLossIndex = city[y][x].minLosses.findIndex(minLoss => minLoss.dx === loss.dx && minLoss.dy === loss.dy && minLoss.long === loss.long);
     if (previousMinLossIndex === -1) {
         city[y][x].minLosses.push({
